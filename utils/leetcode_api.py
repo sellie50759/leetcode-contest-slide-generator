@@ -1,8 +1,6 @@
 import requests
 import json
-import urllib.parse
 from bs4 import BeautifulSoup
-from parse import Problem
 
 session = requests.Session()
 user_agent = r'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36'
@@ -17,7 +15,7 @@ def get_contest_problem_ids(contest_id, is_biweekly=False):
     contest_page = requests.get(leetcode_constest_url)
     contest_data = contest_page.json()
 
-    problem_ids = [question['id'] for question in contest_data['questions']]
+    problem_ids = [question['question_id'] for question in contest_data['questions']]
     return problem_ids
 
 
@@ -64,20 +62,23 @@ def get_problems(problem_ids):
 
     question_list = json.loads(resp.content.decode('utf-8'))
 
-    problems = []
+    problem_len = 4
+    problems = [0]*problem_len
     for question in question_list['stat_status_pairs']:
-        print(question['stat']['question_id'])
         if question['stat']['question_id'] in problem_ids:
             slug = question['stat']['question__title_slug']
             question_data = get_problem_by_slug(slug)
 
-            title = question['stat']['question__title_slug']
+            title = question['stat']['question__title']
             url = f"https://leetcode.com/problems/{question['stat']['question__title_slug']}/"
             difficulty = question['difficulty']['level']
 
             content = BeautifulSoup(question_data['content'], 'html.parser')
             constraint = content.find_all('ul')[-1]
 
-            problems.append(Problem(title, url, difficulty, constraint))
+            question_id = question['stat']['question_id']
+
+            problem_idx = problem_ids.index(question['stat']['question_id'])
+            problems[problem_idx] = tuple([title, url, difficulty, constraint, question_id])
 
     return problems
