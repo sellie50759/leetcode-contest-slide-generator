@@ -1,4 +1,5 @@
 from utils.leetcode_contest import LeetcodeContest
+from utils.hackmdapi import uploadNote
 import argparse
 
 
@@ -34,7 +35,13 @@ if __name__ == "__main__":
     else:
         output_path = args.output
 
-    contest = LeetcodeContest(contest_id, is_biweekly)
+    try:
+        contest = LeetcodeContest(contest_id, is_biweekly)
 
-    contest.to_md(output_path)
+        contest.to_md(output_path)
+
+        uploadNote(output_path)
+    except Exception as e:
+        print(str(e))
+        exit(1)
 

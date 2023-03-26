@@ -59,6 +59,8 @@ def get_problems(problem_ids):
     url = "https://leetcode.com/api/problems/all/"
 
     resp = requests.get(url, timeout=10)
+    if resp.status_code != 200:
+        raise Exception('Cannot connect to Leetcode')
 
     question_list = json.loads(resp.content.decode('utf-8'))
 

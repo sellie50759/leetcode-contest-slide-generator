@@ -24,16 +24,16 @@ def constructProblemStatement(problem):
 程式碼:\n
 ```c++=\n
 ```\n
-    '''
+'''
     return problem_statement
 
 
 class LeetcodeContest:
     difficulty_map = {
-                        1: ('#00B8A3', 'Easy'),
-                        2: ('#FFC011', 'Medium'),
-                        3: ('#FF375F', 'Hard'),
-                        }
+                    1: ('#00B8A3', 'Easy'),
+                    2: ('#FFC011', 'Medium'),
+                    3: ('#FF375F', 'Hard'),
+                    }
 
     def __init__(self, contest_id, is_biweekly=False, latest=True):
         self._problems = []
