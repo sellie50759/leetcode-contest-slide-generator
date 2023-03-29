@@ -78,7 +78,7 @@ def get_problems(problem_ids):
             content = BeautifulSoup(question_data['content'], 'html.parser')
             constraint = content.find_all('ul')[-1]
 
-            question_id = question['stat']['question_id']
+            question_id = question['stat']['frontend_question_id']
 
             problem_idx = problem_ids.index(question['stat']['question_id'])
             problems[problem_idx] = tuple([title, url, difficulty, constraint, question_id])
