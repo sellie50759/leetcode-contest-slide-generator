@@ -1,0 +1,2 @@
+0 6 * * 0 ~/leetcode-contest-slide-generator/cron/cron.sh
+
