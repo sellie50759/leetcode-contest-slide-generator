@@ -52,11 +52,9 @@ class LeetcodeContest:
     def to_md(self, output_file):
         with open(output_file, 'w') as f:
             if self._is_biweekly:
-                f.write(f'###### tags: `BiWeekly Contest`\n\
-                # BiWeekly Contest {self._contest_id}\n')
+                f.write(f'###### tags: `BiWeekly Contest`\n# BiWeekly Contest {self._contest_id}\n')
             else:
-                f.write(f'###### tags: `Weekly Contest`\n\
-                # Weekly Contest {self._contest_id}\n')
+                f.write(f'###### tags: `Weekly Contest`\n# Weekly Contest {self._contest_id}\n')
 
             for problem in self._problems:
                 problem_statement = constructProblemStatement(problem)
