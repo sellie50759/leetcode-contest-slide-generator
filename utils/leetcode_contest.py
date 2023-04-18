@@ -19,8 +19,8 @@ def constructProblemStatement(problem):
 限制 :\n
 {problem.constraint}\n
 ### Solution\n
-#### 時間複雜度: ***O()***\n
-#### 空間複雜度: ***O()***\n
+#### 時間複雜度: $O()$\n
+#### 空間複雜度: $O()$\n
 程式碼:\n
 ```c++=\n
 ```\n
