@@ -44,28 +44,29 @@ if __name__ == "__main__":
 
     contest_id = args.contest_id
     is_biweekly = bool(args.is_biweekly)
+
+    if contest_id == -1:
+        contest_id = LeetcodeContest.getLatestContestId(is_biweekly)
+
     if not args.output:
         output_path = f'./{contest_id}_slide.md'
     else:
         output_path = args.output
 
     # prevent reupload same note
-    if contest_id == -1:
-        latest_contest_id = LeetcodeContest.getLatestContestId(is_biweekly)
-        
-        if checkNoteExist(latest_contest_id, is_biweekly):
-            print("Note already exist")
-            exit(0)
-        
-    try:    
-        contest = LeetcodeContest(contest_id, is_biweekly)
+    if checkNoteExist(contest_id, is_biweekly):
+        print("Note already exist")
+        exit(0)
 
-        contest.to_md(output_path)
+    # try:
+    contest = LeetcodeContest(contest_id, is_biweekly)
 
-        uploadNote(output_path)
-    except Exception as e:
-        print(str(e))
-        exit(1)
+    contest.to_md(output_path)
+
+    uploadNote(output_path)
+    # except Exception as e:
+        # print(str(e))
+        # exit(1)
 
     '''
     contest_id, is_biweekly = -1, True

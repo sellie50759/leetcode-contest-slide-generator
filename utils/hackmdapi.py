@@ -12,7 +12,7 @@ def getTeamNotes():
 
 
 def readNote(note_path):
-    with open(note_path, 'r') as f:
+    with open(note_path, 'r', encoding='utf-8') as f:
         return f.read()
 
 

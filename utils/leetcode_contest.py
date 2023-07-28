@@ -14,7 +14,8 @@ class Problem:
 
 
 def constructProblemStatement(problem):
-    problem_statement = f'''
+    problem_statement = \
+        f'''
 ## [{problem.question_id}. {problem.title}]({problem.url})(<font color={LeetcodeContest.difficulty_map[problem.difficulty][0]}>{LeetcodeContest.difficulty_map[problem.difficulty][1]}</font>)\n
 限制 :\n
 {problem.constraint}\n
@@ -30,10 +31,10 @@ def constructProblemStatement(problem):
 
 class LeetcodeContest:
     difficulty_map = {
-                    1: ('#00B8A3', 'Easy'),
-                    2: ('#FFC011', 'Medium'),
-                    3: ('#FF375F', 'Hard'),
-                    }
+        1: ('#00B8A3', 'Easy'),
+        2: ('#FFC011', 'Medium'),
+        3: ('#FF375F', 'Hard'),
+    }
 
     def __init__(self, contest_id, is_biweekly=False):
         self._problems = []
@@ -43,13 +44,10 @@ class LeetcodeContest:
 
     # if contest id equal -1, then crawl latest contest
     def crawlContestInformation(self, contest_id, is_biweekly=False):
-        # use binary search to find the latest contest id
-        if contest_id == -1:
-            contest_id = self.getLatestContestId()
-
         problem_ids = get_contest_problem_ids(contest_id, is_biweekly)
 
-        self._problems = [Problem(problem[0], problem[1], problem[2], problem[3], problem[4]) for problem in get_problems(problem_ids)]
+        self._problems = [Problem(problem[0], problem[1], problem[2], problem[3], problem[4]) for problem in
+                          get_problems(problem_ids)]
 
     # use binary search to find the latest contest id
     @staticmethod
@@ -67,11 +65,12 @@ class LeetcodeContest:
         # contest not hold also consider a valid contest
         # so contest_id-1 is the latest contest of finished contest
         return l - 1
+
     def getProblems(self):
         return self._problems
 
     def to_md(self, output_file):
-        with open(output_file, 'w') as f:
+        with open(output_file, 'w', encoding='utf-8') as f:
             if self._is_biweekly:
                 f.write(f'###### tags: `BiWeekly Contest`\n# BiWeekly Contest {self._contest_id}\n')
             else:
