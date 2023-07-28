@@ -35,17 +35,38 @@ class LeetcodeContest:
                     3: ('#FF375F', 'Hard'),
                     }
 
-    def __init__(self, contest_id, is_biweekly=False, latest=True):
+    def __init__(self, contest_id, is_biweekly=False):
         self._problems = []
         self._is_biweekly = is_biweekly
         self._contest_id = contest_id
         self.crawlContestInformation(contest_id, is_biweekly)
 
+    # if contest id equal -1, then crawl latest contest
     def crawlContestInformation(self, contest_id, is_biweekly=False):
+        # use binary search to find the latest contest id
+        if contest_id == -1:
+            contest_id = self.getLatestContestId()
+
         problem_ids = get_contest_problem_ids(contest_id, is_biweekly)
 
         self._problems = [Problem(problem[0], problem[1], problem[2], problem[3], problem[4]) for problem in get_problems(problem_ids)]
 
+    # use binary search to find the latest contest id
+    @staticmethod
+    def getLatestContestId(is_biweekly):
+        l, r = 1, 1000
+
+        while l < r:
+            mid = (l + r + 1) // 2
+
+            if test_contest_exist(mid, is_biweekly):
+                l = mid
+            else:
+                r = mid - 1
+
+        # contest not hold also consider a valid contest
+        # so contest_id-1 is the latest contest of finished contest
+        return l - 1
     def getProblems(self):
         return self._problems
 
@@ -63,7 +84,17 @@ class LeetcodeContest:
 
 if __name__ == "__main__":
     contest_id = 337
-    contest = LeetcodeContest(337)
+    contest = LeetcodeContest(contest_id)
+
+    for problem in contest.getProblems():
+        print(problem.title)
+        print(problem.url)
+        print(problem.difficulty)
+        print(problem.constraint)
+        print(problem.question_id)
+
+    contest_id = -1  # get latest contest
+    contest = LeetcodeContest(contest_id)
 
     for problem in contest.getProblems():
         print(problem.title)

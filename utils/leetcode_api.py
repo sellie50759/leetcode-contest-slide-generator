@@ -1,10 +1,25 @@
 import requests
 import json
+import time
 from bs4 import BeautifulSoup
 
 session = requests.Session()
 user_agent = r'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36'
 
+
+def test_contest_exist(contest_id, is_biweekly=False):
+    if is_biweekly:
+        leetcode_constest_url = f"https://leetcode.com/contest/api/info/biweekly-contest-{contest_id}/"
+    else:
+        leetcode_constest_url = f"https://leetcode.com/contest/api/info/weekly-contest-{contest_id}/"
+
+    contest_page = requests.get(leetcode_constest_url)
+    contest_data = contest_page.json()
+
+    if "error" in contest_data:
+        return False
+    else:
+        return True
 
 def get_contest_problem_ids(contest_id, is_biweekly=False):
     if is_biweekly:
