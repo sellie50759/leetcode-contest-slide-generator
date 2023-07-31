@@ -32,9 +32,11 @@ if __name__ == "__main__":
     )
     parser.add_argument('contest_id', type=int,
                         help='Leetcode contest id, input -1 represent get latest contest')
-    parser.add_argument('-i', '--is_biweekly',
-                        required=False,
-                        help='this contest is biweekly or weekly contest')
+    parser.add_argument('--is_biweekly',
+                        action=argparse.BooleanOptionalAction,
+                        help='this contest is biweekly or weekly contest'
+                        )
+
     parser.add_argument('-o', '--output',
                         required=False,
                         type=ext_check('.md', argparse.FileType('w')),
@@ -43,7 +45,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     contest_id = args.contest_id
-    is_biweekly = bool(args.is_biweekly)
+    is_biweekly = args.is_biweekly
 
     if contest_id == -1:
         contest_id = LeetcodeContest.getLatestContestId(is_biweekly)
